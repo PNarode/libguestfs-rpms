@@ -1273,20 +1273,11 @@ install -m 0644 utils/boot-benchmark/boot-benchmark.1 $RPM_BUILD_ROOT%{_mandir}/
 
 %files -n python-%{name}
 %doc python/examples/*.py
-%{python_sitearch}/libguestfsmod.so
-%{python_sitearch}/guestfs.py
-%{python_sitearch}/guestfs.pyc
-%{python_sitearch}/guestfs.pyo
-%{_mandir}/man3/guestfs-python.3*
-
-
-%files -n ruby-%{name}
-%doc ruby/examples/*.rb
-%doc ruby/doc/site/*
-%{ruby_vendorlibdir}/guestfs.rb
-%{ruby_vendorarchdir}/_guestfs.so
-%{_mandir}/man3/guestfs-ruby.3*
-
+#%{python_sitearch}/libguestfsmod.so
+#%{python_sitearch}/guestfs.py
+#%{python_sitearch}/guestfs.pyc
+#%{python_sitearch}/guestfs.pyo
+#%{_mandir}/man3/guestfs-python.3*
 
 %files java
 %{_libdir}/libguestfs_jni*.so.*
@@ -1301,28 +1292,6 @@ install -m 0644 utils/boot-benchmark/boot-benchmark.1 $RPM_BUILD_ROOT%{_mandir}/
 
 %files javadoc
 %{_javadocdir}/%{name}
-
-
-%files -n lua-guestfs
-%doc lua/examples/*.lua
-%doc lua/examples/LICENSE
-%{_libdir}/lua/*/guestfs.so
-%{_mandir}/man3/guestfs-lua.3*
-
-
-%files gobject
-%{_libdir}/libguestfs-gobject-1.0.so.0*
-%{_libdir}/girepository-1.0/Guestfs-1.0.typelib
-
-
-%files gobject-devel
-%{_libdir}/libguestfs-gobject-1.0.so
-%{_includedir}/guestfs-gobject.h
-%dir %{_includedir}/guestfs-gobject
-%{_includedir}/guestfs-gobject/*.h
-%{_datadir}/gir-1.0/Guestfs-1.0.gir
-%{_libdir}/pkgconfig/libguestfs-gobject-1.0.pc
-%{_mandir}/man3/guestfs-gobject.3*
 
 
 %files man-pages-ja
