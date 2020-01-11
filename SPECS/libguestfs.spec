@@ -148,8 +148,8 @@ Source7:       libguestfs.keyring
 # mingw32-srvany-1.0-15.20150115gitfd659e77.fc23.noarch
 # RHEV-APT is taken from the RHEV Tools CD
 # See https://bugzilla.redhat.com/show_bug.cgi?id=1186850
-Source96:      rhsrvany.exe
-Source97:      rhev-apt.exe
+#Source96:      rhsrvany.exe
+#Source97:      rhev-apt.exe
 
 Source98:      brew-overrides.sh
 Source99:      copy-patches.sh
@@ -1023,8 +1023,8 @@ install -m 0644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 
 # Virt-tools data directory.
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/virt-tools
-cp %{SOURCE96} $RPM_BUILD_ROOT%{_datadir}/virt-tools/rhsrvany.exe
-cp %{SOURCE97} $RPM_BUILD_ROOT%{_datadir}/virt-tools/rhev-apt.exe
+#cp %{SOURCE96} $RPM_BUILD_ROOT%{_datadir}/virt-tools/rhsrvany.exe
+#cp %{SOURCE97} $RPM_BUILD_ROOT%{_datadir}/virt-tools/rhev-apt.exe
 
 %ifnarch %{v2v_arches}
 rm $RPM_BUILD_ROOT%{_bindir}/virt-p2v*
