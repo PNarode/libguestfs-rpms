@@ -823,10 +823,10 @@ for %{name}.
 
 
 %prep
-%if 0%{verify_tarball_signature}
-tmphome="$(mktemp -d)"
-gpgv2 --homedir "$tmphome" --keyring %{SOURCE7} %{SOURCE1} %{SOURCE0}
-%endif
+#%if 0%{verify_tarball_signature}
+#tmphome="$(mktemp -d)"
+#gpgv2 --homedir "$tmphome" --keyring %{SOURCE7} %{SOURCE1} %{SOURCE0}
+#%endif
 %setup -q
 
 # For sVirt to work, the local temporary directory we use in the tests
@@ -906,6 +906,8 @@ export PYTHON=/home/rhv/myansible/bin/python
 #
 # 'INSTALLDIRS' ensures that Perl and Ruby libs are installed in the
 # vendor dir not the site dir.
+rm -rf po-docs/podfiles
+make -C po-docs update-po
 make -j1 -C builder index-parse.c
 make V=1 INSTALLDIRS=vendor %{?_smp_mflags}
 
