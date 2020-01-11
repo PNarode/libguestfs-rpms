@@ -883,6 +883,7 @@ export QEMU=/usr/libexec/qemu-kvm
 
 # In RHEL >= 7.1, supermin 5 has a different name:
 export SUPERMIN=%{_bindir}/supermin5
+export PYTHON=/home/rhv/myansible/bin/python
 
 %{configure} \
   --with-default-backend=libvirt \
@@ -892,6 +893,11 @@ export SUPERMIN=%{_bindir}/supermin5
   --disable-haskell \
   --disable-erlang \
   --disable-golang \
+  --disable-gobject \
+  --disable-lua \
+  --disable-ocaml \
+  --disable-perl \
+  --disable-ruby \
   $extra
 
 # Building index-parse.c by hand works around a race condition in the
