@@ -895,8 +895,6 @@ export PYTHON=/home/rhv/myansible/bin/python
   --disable-golang \
   --disable-gobject \
   --disable-lua \
-  --disable-ocaml \
-  --disable-perl \
   --disable-ruby \
   $extra
 
@@ -906,8 +904,9 @@ export PYTHON=/home/rhv/myansible/bin/python
 #
 # 'INSTALLDIRS' ensures that Perl and Ruby libs are installed in the
 # vendor dir not the site dir.
-rm -rf po-docs/podfiles
-make -C po-docs update-po
+#rm -rf po-docs/podfiles
+#make -C po-docs update-po
+
 make -j1 -C builder index-parse.c
 make V=1 INSTALLDIRS=vendor %{?_smp_mflags}
 
