@@ -714,8 +714,8 @@ perl-Sys-Guestfs contains Perl bindings for %{name} (Sys::Guestfs).
 Summary:       Python bindings for %{name}
 Requires:      %{name} = %{epoch}:%{version}-%{release}
 
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{!?python_sitelib: %global python_sitelib %(/home/rhv/myansible/bin/python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
+%{!?python_sitearch: %global python_sitearch %(/home/rhv/myansible/bin/python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
 
 %description -n python-%{name}
 python-%{name} contains Python bindings for %{name}.
