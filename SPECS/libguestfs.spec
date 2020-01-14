@@ -233,7 +233,7 @@ BuildRequires: python-devel
 BuildRequires: libvirt-python
 BuildRequires: ruby-devel
 BuildRequires: rubygem-rake
-BuildRequires: rubygem(minitest)
+#BuildRequires: rubygem(minitest)
 #BuildRequires: rubygem(test-unit)
 BuildRequires: ruby-irb
 BuildRequires: java-1.7.0-openjdk
@@ -495,7 +495,7 @@ Summary:       System administration tools for virtual machines
 License:       GPLv2+
 BuildArch:     noarch
 Requires:      %{name} = %{epoch}:%{version}-%{release}
-Requires:      %{name}-tools-c = %{epoch}:%{version}-%{release}
+#Requires:      %{name}-tools-c = %{epoch}:%{version}-%{release}
 
 # NB: Only list deps here which are not picked up automatically.
 Requires:      perl(Sys::Virt)
@@ -714,8 +714,8 @@ perl-Sys-Guestfs contains Perl bindings for %{name} (Sys::Guestfs).
 Summary:       Python bindings for %{name}
 Requires:      %{name} = %{epoch}:%{version}-%{release}
 
-%{!?python_sitelib: %global python_sitelib %(/home/rhv/myansible/bin/python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
-%{!?python_sitearch: %global python_sitearch %(/home/rhv/myansible/bin/python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 %description -n python-%{name}
 python-%{name} contains Python bindings for %{name}.
@@ -823,10 +823,10 @@ for %{name}.
 
 
 %prep
-#%if 0%{verify_tarball_signature}
-#tmphome="$(mktemp -d)"
+%if 0%{verify_tarball_signature}
+tmphome="$(mktemp -d)"
 #gpgv2 --homedir "$tmphome" --keyring %{SOURCE7} %{SOURCE1} %{SOURCE0}
-#%endif
+%endif
 %setup -q
 
 # For sVirt to work, the local temporary directory we use in the tests
@@ -883,7 +883,7 @@ export QEMU=/usr/libexec/qemu-kvm
 
 # In RHEL >= 7.1, supermin 5 has a different name:
 export SUPERMIN=%{_bindir}/supermin5
-export PYTHON=/home/rhv/myansible/bin/python
+#export PYTHON=/usr/local/bin/python3.7
 
 %{configure} \
   --with-default-backend=libvirt \
@@ -893,9 +893,8 @@ export PYTHON=/home/rhv/myansible/bin/python
   --disable-haskell \
   --disable-erlang \
   --disable-golang \
-  --disable-gobject \
-  --disable-lua \
   --disable-ruby \
+  --disable-lua \
   $extra
 
 # Building index-parse.c by hand works around a race condition in the
@@ -904,9 +903,6 @@ export PYTHON=/home/rhv/myansible/bin/python
 #
 # 'INSTALLDIRS' ensures that Perl and Ruby libs are installed in the
 # vendor dir not the site dir.
-#rm -rf po-docs/podfiles
-#make -C po-docs update-po
-
 make -j1 -C builder index-parse.c
 make V=1 INSTALLDIRS=vendor %{?_smp_mflags}
 
@@ -1273,11 +1269,20 @@ install -m 0644 utils/boot-benchmark/boot-benchmark.1 $RPM_BUILD_ROOT%{_mandir}/
 
 %files -n python-%{name}
 %doc python/examples/*.py
-#%{python_sitearch}/libguestfsmod.so
-#%{python_sitearch}/guestfs.py
-#%{python_sitearch}/guestfs.pyc
-#%{python_sitearch}/guestfs.pyo
-#%{_mandir}/man3/guestfs-python.3*
+%{python_sitearch}/libguestfsmod.so
+%{python_sitearch}/guestfs.py
+%{python_sitearch}/guestfs.pyc
+%{python_sitearch}/guestfs.pyo
+%{_mandir}/man3/guestfs-python.3*
+
+
+#%files -n ruby-%{name}
+#%doc ruby/examples/*.rb
+#%doc ruby/doc/site/*
+#%{ruby_vendorlibdir}/guestfs.rb
+#%{ruby_vendorarchdir}/_guestfs.so
+#%{_mandir}/man3/guestfs-ruby.3*
+
 
 %files java
 %{_libdir}/libguestfs_jni*.so.*
@@ -1292,6 +1297,28 @@ install -m 0644 utils/boot-benchmark/boot-benchmark.1 $RPM_BUILD_ROOT%{_mandir}/
 
 %files javadoc
 %{_javadocdir}/%{name}
+
+
+#%files -n lua-guestfs
+#%doc lua/examples/*.lua
+#%doc lua/examples/LICENSE
+#%{_libdir}/lua/*/guestfs.so
+#%{_mandir}/man3/guestfs-lua.3*
+
+
+%files gobject
+%{_libdir}/libguestfs-gobject-1.0.so.0*
+%{_libdir}/girepository-1.0/Guestfs-1.0.typelib
+
+
+%files gobject-devel
+%{_libdir}/libguestfs-gobject-1.0.so
+%{_includedir}/guestfs-gobject.h
+%dir %{_includedir}/guestfs-gobject
+%{_includedir}/guestfs-gobject/*.h
+%{_datadir}/gir-1.0/Guestfs-1.0.gir
+%{_libdir}/pkgconfig/libguestfs-gobject-1.0.pc
+%{_mandir}/man3/guestfs-gobject.3*
 
 
 %files man-pages-ja
